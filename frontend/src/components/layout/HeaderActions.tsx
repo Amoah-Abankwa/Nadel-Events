@@ -11,7 +11,7 @@ import { useSession } from '@/stores/session-store';
 import { useWishlist } from '@/stores/wishlist-store';
 import { loginHref } from '@/lib/site-links';
 
-/** Top-bar links: saved items count and account. */
+/** Top-bar links: saved items count and account. Icon-only on phones, icon + text from `sm` up. */
 export function TopBarLinks() {
   const hydrated = useHydrated();
   const { status, load, user } = useSession();
@@ -24,20 +24,41 @@ export function TopBarLinks() {
     if (user) void loadWishlist(user.id);
   }, [user, loadWishlist]);
 
+  const savedCount = hydrated && user ? ids.size : 0;
+  const accountLabel = user ? (user.role === 'CUSTOMER' ? 'My account' : 'Admin') : 'Sign in';
+
   const sep = <span aria-hidden className="h-3 w-px bg-cream/40" />;
   return (
     <ul className="flex items-center gap-3 sm:gap-4">
       <li>
-        <Link href={user ? '/account/wishlist' : loginHref('/account/wishlist')} className="inline-flex items-center gap-1.5 hover:underline">
-          <IconHeart className="size-4" /> Saved ({hydrated && user ? ids.size : 0})
+        <Link
+          href={user ? '/account/wishlist' : loginHref('/account/wishlist')}
+          aria-label={`Saved items, ${savedCount}`}
+          className="inline-flex items-center gap-1.5 p-1 hover:underline sm:p-0"
+        >
+          <span className="relative inline-flex">
+            <IconHeart className="size-5 sm:size-4" />
+            {/* Phones: count shown as a small badge on the icon instead of text. */}
+            {savedCount > 0 && (
+              <span aria-hidden className="absolute -right-2 -top-2 min-w-4 rounded-full bg-caramel px-1 text-center text-[10px] font-bold leading-4 text-charcoal sm:hidden">
+                {savedCount}
+              </span>
+            )}
+          </span>
+          <span className="hidden sm:inline">Saved ({savedCount})</span>
         </Link>
       </li>
       <li className="hidden sm:block">{sep}</li>
       <li className="hidden sm:block"><Link href="/account/orders" className="hover:underline">Track order</Link></li>
       <li>{sep}</li>
       <li>
-        <Link href={user ? (user.role === 'CUSTOMER' ? '/account/orders' : '/admin') : loginHref()} className="inline-flex items-center gap-1.5 hover:underline">
-          <IconUser className="size-4" /> {user ? (user.role === 'CUSTOMER' ? 'My account' : 'Admin') : 'Sign in'}
+        <Link
+          href={user ? (user.role === 'CUSTOMER' ? '/account/orders' : '/admin') : loginHref()}
+          aria-label={accountLabel}
+          className="inline-flex items-center gap-1.5 p-1 hover:underline sm:p-0"
+        >
+          <IconUser className="size-5 sm:size-4" />
+          <span className="hidden sm:inline">{accountLabel}</span>
         </Link>
       </li>
     </ul>
