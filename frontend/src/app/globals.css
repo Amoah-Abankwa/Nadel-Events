@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FBF6EE;
+  --color-paper: #FFFDF9;
+  --color-flour: #EFE4D2;
+  --color-crust: #D9C6A8;
+  --color-burgundy: #6B1E2C;
+  --color-burgundy-deep: #531521;
+  --color-cocoa: #4A2E24;
+  --color-charcoal: #2A2624;
+  --color-muted: #6E625B;
+  --color-success: #2F5D3A;
+  --color-danger: #9B2C2C;
+  /* Accent for stars, offer tags and the round add-to-cart button (the reference's yellow, warmed to caramel). */
+  --color-caramel: #D9A441;
+  --color-caramel-deep: #B9852A;
+  --color-panel-shadow: rgb(42 38 36 / 0.06);
+
+  /* Cake section (/cakes): rose accent and soft pastel tiles. Solid colours only. */
+  --color-rose: #C64B61;
+  --color-rose-deep: #A83A4F;
+  --color-blush: #FBE4E6;
+  --color-butter: #FFF1CC;
+  --color-pistachio: #E8EFD6;
+  --color-peach: #FCE3D5;
+  --color-sky: #DDEFF3;
+  --font-script: var(--font-caveat), "Segoe Print", cursive;
+
+  /* Decoration studio (/decor): blush and taupe, elegant serif. Solid colours only. */
+  --color-petal: #FDF5F2;
+  --color-petal-deep: #FBE9E3;
+  --color-taupe: #8C6A4F;
+  --font-elegant: var(--font-cormorant), Georgia, serif;
+  --font-condensed: var(--font-oswald), "Arial Narrow", sans-serif;
+  --font-signature: var(--font-great-vibes), "Brush Script MT", cursive;
+
+  --font-display: var(--font-young-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-cream);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--color-cocoa);
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-burgundy);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-flour);
+  }
+}
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0 1.25rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-burgundy);
+    color: var(--color-paper);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-burgundy-deep);
+  }
+  .btn-secondary {
+    border: 1px solid var(--color-cocoa);
+    color: var(--color-cocoa);
+    background: transparent;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--color-flour);
+  }
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-crust);
+    border-radius: var(--radius-sm);
+    background: var(--color-paper);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+  .label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .panel {
+    background: var(--color-paper);
+    border: 1px solid var(--color-flour);
+    border-radius: var(--radius-md);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
