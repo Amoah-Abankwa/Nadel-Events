@@ -71,16 +71,27 @@ export default async function HomePage() {
       <h1 className="sr-only">Cakes, decoration and kitchenware</h1>
 
       {/* Phones: quick category chips instead of the sidebar menu. */}
-      <nav aria-label="Categories" className="-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:hidden">
+      <nav
+        aria-label="Categories"
+        className="-mx-4 mb-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden"
+      >
         {categories.map((c) => (
-          <Link key={c.id} href={`/categories/${c.slug}`} className="inline-flex shrink-0 items-center gap-2 rounded-full border border-crust bg-paper px-3 py-2 text-sm">
+          <Link
+            key={c.id}
+            href={`/categories/${c.slug}`}
+            className="inline-flex shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full border border-crust bg-paper px-3 py-2 text-sm"
+          >
             <CategoryIcon slug={c.slug} className="size-4 text-burgundy" /> {c.name}
           </Link>
         ))}
       </nav>
 
-      <div className="grid gap-6 lg:grid-cols-[16.5rem_1fr]">
-        <aside className="order-2 space-y-6 lg:order-1" aria-label="Deals and more">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-[16.5rem_minmax(0,1fr)]">
+        {/* Phones: one column. Tablets: two columns. Desktop: the stacked sidebar. */}
+        <aside
+          className="order-2 grid min-w-0 gap-4 sm:grid-cols-2 sm:gap-6 lg:order-1 lg:block lg:space-y-6"
+          aria-label="Deals and more"
+        >
           <div className="hidden lg:block"><CategoryPanel categories={categories} /></div>
           <DealSpotlight products={deals.slice(0, 6)} />
           <CompactProductList id="bestsellers" title="Best sellers" products={bestsellers} />
@@ -90,7 +101,7 @@ export default async function HomePage() {
           <SidebarPromo banner={sidebar[0]} fallback={{ title: 'Custom cakes', text: 'Made for your day', tag: 'Request a quote', href: '/services' }} />
         </aside>
 
-        <div className="order-1 min-w-0 space-y-6 lg:order-2">
+        <div className="order-1 min-w-0 space-y-4 sm:space-y-6 lg:order-2">
           <HeroSlider banners={hero} fallback={slides} />
           <PromoPair banners={promo} fallback={promoCards} />
           <CategoryTabs categories={categories} initial={items(firstTabProducts)} />
@@ -102,7 +113,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      <div className="mt-8"><TrustStrip returnsDays={maxReturns} /></div>
+      <div className="mt-6 sm:mt-8"><TrustStrip returnsDays={maxReturns} /></div>
     </>
   );
 }
